@@ -1,7 +1,5 @@
-import bcryptjs from "bcryptjs";
 import httpStatus from "http-status-codes";
 import { JwtPayload } from "jsonwebtoken";
-import { envVars } from "../../config/env";
 import AppError from "../../errorHelpers/AppError";
 import { IAuthProvider, IUser, Role } from "./user.interface";
 import { User } from "./user.model";
@@ -70,9 +68,8 @@ const updateUser = async (
   }
 
   if (payload.password) {
-    payload.password = await bcryptjs.hash(
-      payload.password,
-      envVars.BCRYPT_SALT_ROUND
+    payload.password = await hashPassword(
+      payload.password
     );
   }
 
