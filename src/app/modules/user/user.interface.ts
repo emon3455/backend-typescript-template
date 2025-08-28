@@ -32,6 +32,7 @@ export interface IUser {
     isVerified?: boolean;
     role: Role;
     auths: IAuthProvider[]
-    bookings?: Types.ObjectId[]
-    guides?: Types.ObjectId[]
+    otpCode?: string | null,
+    otpExpiresAt?: Date | null,
+    otpPurpose?: string |  null, // e.g. "verify_email" | "reset_password" | "2fa"
 }

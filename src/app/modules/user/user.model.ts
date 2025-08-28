@@ -29,6 +29,11 @@ const userSchema = new Schema<IUser>({
         default: IsActive.ACTIVE,
     },
     isVerified: { type: Boolean, default: false },
+
+    otpCode: { type: String, default: null },
+    otpExpiresAt: { type: Date, default: null },
+    otpPurpose: { type: String, default: null }, // e.g. "verify_email" | "reset_password" | "2fa"
+
     auths: [authProviderSchema],
 }, {
     timestamps: true,
