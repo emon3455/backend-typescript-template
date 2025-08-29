@@ -69,8 +69,7 @@ const updateUser = async (
 
   if (payload.password) {
     payload.password = await hashPassword(
-      payload.password
-    );
+      payload.password as string);
   }
 
   const newUpdatedUser = await User.findByIdAndUpdate(userId, payload, {
@@ -104,9 +103,33 @@ const getAllUsers = async (
   };
 };
 
+const updateMe = async (
+  payload: Partial<IUser>,
+  decodedToken: JwtPayload
+) => {
+  
+  const ifUserExist = await User.findById(decodedToken?.userId);
+
+  if (!ifUserExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
+  }
+
+  if (payload.password) {
+    payload.password = await hashPassword(payload.password as string);
+  }
+
+  const newUpdatedUser = await User.findByIdAndUpdate(decodedToken?.userId, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return newUpdatedUser;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
   updateUser,
   getMe,
+  updateMe
 };
