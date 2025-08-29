@@ -66,6 +66,24 @@ const getAllUsers = catchAsync(
   }
 );
 
+const updateMe = catchAsync(async (req: Request, res: Response) => {
+
+  const verifiedToken = req.user;
+
+  const payload = req.body;
+  const user = await UserServices.updateMe(
+    payload,
+    verifiedToken as JwtPayload
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User Updated Successfully",
+    data: user,
+  });
+});
+
 // function => try-catch catch => req-res function
 
 export const UserControllers = {
@@ -73,6 +91,7 @@ export const UserControllers = {
   getAllUsers,
   updateUser,
   getMe,
+  updateMe
 };
 
 // route matching -> controller -> service -> model -> DB

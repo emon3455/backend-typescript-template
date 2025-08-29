@@ -8,6 +8,7 @@ import "./app/config/passport";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
 import { router } from "./app/routes";
+import { name } from "./app/constant/constant";
 
 const app = express()
 
@@ -30,7 +31,7 @@ app.use("/api/v1", router)
 
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({
-        message: "Welcome to Tour Management System Backend"
+        message: `Welcome to ${name} System Backend`
     })
 })
 
